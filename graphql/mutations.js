@@ -1,6 +1,7 @@
 const { GraphQLString, GraphQLObjectType } = require("graphql");
-const { User } = require("../models");
+const { User, Post } = require("../models");
 const createJwtToken = require("../utils/auth");
+const { PostType } = require("./types");
 
 const signUp = {
   type: GraphQLString,
@@ -39,4 +40,29 @@ const logIn = {
   }
 }
 
-module.exports = { signUp, logIn }
+const addPost = {
+  type: PostType,
+  description: "Add NEW POST",
+  args: {
+    title: { type: GraphQLString },
+    body: { type: GraphQLString },
+  },
+  async resolve(parent, args, { loggedInUser }) {
+    console.log(loggedInUser)
+    if (!loggedInUser) {
+      throw new Error("Unauthorized")
+    }
+
+    const post = new Post({
+      authorId: loggedInUser._id,
+      title: args.title,
+      body: args.body
+    })
+
+    await post.save();
+
+    return post;
+  }
+}
+
+module.exports = { signUp, logIn, addPost }

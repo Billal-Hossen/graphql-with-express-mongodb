@@ -11,6 +11,27 @@ const UserType = new GraphQLObjectType({
   })
 })
 
+// const PostType = new GraphQLObjectType({
+//   name: "Post",
+//   description: "Post type",
+//   fields: () => ({
+//     id: { type: GraphQLID },
+//     title: { type: GraphQLString },
+//     body: { type: GraphQLString },
+//     author: {
+//       type: UserType,
+//       resolve(parent, args) {
+//         return User.findById(parent.authorId)
+//       }
+//     },
+//     comments: {
+//       type: GraphQLList(CommentType),
+//       resolve(parent, args) {
+//         return Comment.find({ postId: parent.id })
+//       },
+//     },
+//   })
+// })
 const PostType = new GraphQLObjectType({
   name: "Post",
   description: "Post type",
@@ -22,15 +43,15 @@ const PostType = new GraphQLObjectType({
       type: UserType,
       resolve(parent, args) {
         return User.findById(parent.authorId)
-      }
+      },
     },
-    comments: ({
-      type: GraphQLList(CommentType),
+    comments: {
+      type: new GraphQLList(CommentType),
       resolve(parent, args) {
         return Comment.find({ postId: parent.id })
       },
-    }),
-  })
+    },
+  }),
 })
 
 
