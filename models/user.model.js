@@ -25,12 +25,9 @@ const userSchema = Schema({
     trim: true,
     select: false
   },
-  dispalyName: {
+  displayName: {
     type: String,
-    required: [true, "User display name is required!"],
-    minLength: [3, "User display name at least 3 character!"],
-    maxLength: [100, "User display name is too long!"],
-    trim: true
+    required: true,
   },
 }, { timestemps: true });
 

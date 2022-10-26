@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const { modelName } = require("./User")
+
 
 const commentSchema = new mongoose.Schema(
   {

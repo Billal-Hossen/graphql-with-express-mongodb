@@ -14,7 +14,7 @@ const UserType = new GraphQLObjectType({
 const PostType = new GraphQLObjectType({
   name: "Post",
   description: "Post type",
-  fields: ({
+  fields: () => ({
     id: { type: GraphQLID },
     title: { type: GraphQLString },
     body: { type: GraphQLString },
@@ -24,14 +24,15 @@ const PostType = new GraphQLObjectType({
         return User.findById(parent.authorId)
       }
     },
-    comments: {
+    comments: ({
       type: GraphQLList(CommentType),
       resolve(parent, args) {
         return Comment.find({ postId: parent.id })
-      }
-    }
+      },
+    }),
   })
 })
+
 
 const CommentType = new GraphQLObjectType({
   name: "Comment",
